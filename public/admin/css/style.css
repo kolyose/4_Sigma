@@ -1,0 +1,4 @@
+::-webkit-input-placeholder {font-size: smaller;}
+::-moz-placeholder          {font-size: smaller;}/* Firefox 19+ */
+:-moz-placeholder           {font-size: smaller;}/* Firefox 18- */
+:-ms-input-placeholder      {font-size: smaller;}
