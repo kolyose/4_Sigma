@@ -1,8 +1,10 @@
-const app = new (require("koa"))();
-const route = require("koa-route");
-const serve = require("koa-static");
-const parse = require("co-body");
-const fs = require("mz/fs");
+import Koa from "koa";
+import route from "koa-route";
+import serve from "koa-static";
+import parse from "co-body";
+import fs from "mz/fs";
+
+const app = new Koa();
 
 function main() {
   app.use(async (ctx, next) => {
@@ -14,14 +16,15 @@ function main() {
     }
   });
 
-  //TODO: diverse the middleware into different handler files
+  // TODO: diverse the middleware into different handler files
   app.use(serve("public/admin"));
   app.use(serve("public/game"));
 
   app.use(
-    route.post("/settings", async (ctx, next) => {
+    route.post("/settings", async ctx => {
+      let data;
       try {
-        const data = await parse.form(ctx.req);
+        data = await parse.form(ctx.req);
       } catch (e) {
         throw e;
       }
@@ -37,7 +40,7 @@ function main() {
   );
 
   app.use(
-    route.get("/settings", async (ctx, next) => {
+    route.get("/settings", async ctx => {
       ctx.body = await fs.readFile("./db/settings.json", "utf-8");
     })
   );
