@@ -1,18 +1,10 @@
-/*import Koa from "koa";
-import route from "koa-route";
-import serve from "koa-static";
-import parse from "co-body";
-import fs from "mz/fs";*/
-
 const Koa = require("koa");
 const route = require("koa-route");
 const serve = require("koa-static");
-const parse = require("co-body");
 const fs = require("mz/fs");
 const path = require("path");
 
 const app = new Koa();
-
 function main() {
   app.use(async (ctx, next) => {
     try {
@@ -30,16 +22,19 @@ function main() {
     route.post("/settings", async ctx => {
       let data;
       try {
-        data = await parse.form(ctx.req);
+        // TODO: utilize busboy here or some other module koa-multer, koa-better-body
       } catch (e) {
         throw e;
       }
 
-      try {
-        await fs.writeFile("./db/settings.json", data);
+      /* try {
+        const file = fs.createWriteStream("./db/settings.json", {
+          autoClose: true
+        });
+        await file.end(data);
       } catch (e) {
         throw e;
-      }
+      }*/
 
       ctx.status = 200;
     })
