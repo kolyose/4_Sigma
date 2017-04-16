@@ -6,9 +6,9 @@ class AdminPanel extends React.Component {
   render() {
     return (
       <div className="col-md-2">
-        <form action="/settings" method="post">
+        <form action="/settings" method="post" encType="multipart/form-data">
           <fieldset>
-            <legend>Puzzle game settings</legend>
+            <legend>Puzzle game settings 2</legend>
             <div className="form-group">
               <label for="file" className="col-form-label">Load image:</label>
               <input
