@@ -1,5 +1,8 @@
-import { port } from "./config";
-import app from "./app";
+// import { port } from "./config";
+// import app from "./app";
+
+const port = require("./config").port;
+const app = require("./app");
 
 app.listen(port, () => {
   // TODO: add logging

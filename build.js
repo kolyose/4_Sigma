@@ -1,13 +1,15 @@
 const NODE_ENV = process.env.NODE_ENV || "development";
 const webpack = require("webpack");
+const path = require("path");
 
-module.exports = {
+const config = {
+  context: path.join(__dirname, "/frontend"),
   entry: {
-    Game: "./game/src/index.js",
-    Admin: "./admin/src/index.js"
+    game: "./game/index.js",
+    admin: "./admin/index.js"
   },
   output: {
-    path: "bundle",
+    path: path.join(__dirname, "/public/dist"),
     filename: "[name].js"
   },
   watch: NODE_ENV === "development",
@@ -15,13 +17,6 @@ module.exports = {
     aggregateTimeout: 100
   },
   devtool: NODE_ENV === "development" ? "cheap-inline-module-source-map" : null,
-
-  plugins: [
-    new webpack.DefinePlugin({
-      NODE_ENV: JSON.stringify(NODE_ENV)
-    })
-  ],
-
   module: {
     loaders: [
       {
@@ -31,3 +26,11 @@ module.exports = {
     ]
   }
 };
+
+const compiler = webpack(config);
+compiler.run(err => {
+  if (err) {
+    console.log(err);
+  }
+  require("./src/index.js");
+});

@@ -1,8 +1,15 @@
-import Koa from "koa";
+/*import Koa from "koa";
 import route from "koa-route";
 import serve from "koa-static";
 import parse from "co-body";
-import fs from "mz/fs";
+import fs from "mz/fs";*/
+
+const Koa = require("koa");
+const route = require("koa-route");
+const serve = require("koa-static");
+const parse = require("co-body");
+const fs = require("mz/fs");
+const path = require("path");
 
 const app = new Koa();
 
@@ -17,8 +24,7 @@ function main() {
   });
 
   // TODO: diverse the middleware into different handler files
-  app.use(serve("public/admin"));
-  app.use(serve("public/game"));
+  app.use(serve(path.join(__dirname, "./../public")));
 
   app.use(
     route.post("/settings", async ctx => {
