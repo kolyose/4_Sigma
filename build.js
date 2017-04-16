@@ -32,5 +32,5 @@ compiler.run(err => {
   if (err) {
     console.log(err);
   }
-  require("./src/index.js");
+  require("./server/index.js");
 });

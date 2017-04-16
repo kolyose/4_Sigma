@@ -7,9 +7,8 @@
   "author": "Sergey Kolesnik <kolesnik.s.e@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "cross-env NODE_ENV=production && webpack --config webpack.config.js && node ./dist/index.js",
-    "dev": "webpack --config webpack.config.js && node ./dist/index.js",
-    "build": "cross-env NODE_ENV=production && node build.js"
+    "start": "cross-env NODE_ENV=production && node build.js",
+    "dev": "node build.js"
   },
   "eslintConfig": {
     "root": true,
