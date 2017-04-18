@@ -1,10 +1,10 @@
-// import { port } from "./config";
-// import app from "./app";
-
-const port = require("./config").port;
+const config = require("./config");
 const app = require("./app");
 
-app.listen(port, () => {
+const host = config.host;
+const port = config.port;
+
+app.listen(port, host, () => {
   // TODO: add logging
-  console.log(`server is listening on port ${port}`);
+  console.log(`server is listening on ${host}:${port}`);
 });

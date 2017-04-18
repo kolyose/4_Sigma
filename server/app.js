@@ -5,6 +5,7 @@ const fs = require("mz/fs");
 const path = require("path");
 const multer = require("koa-multer");
 const compose = require("koa-compose");
+const config = require("./config");
 
 const app = new Koa();
 const storage = multer.diskStorage({
@@ -12,8 +13,7 @@ const storage = multer.diskStorage({
     cb(null, "./public/img/");
   },
   filename: (req, file, cb) => {
-    const fileExtension = file.originalname.split(".").pop();
-    cb(null, `${file.fieldname}.${fileExtension}`);
+    cb(null, `${file.fieldname}${path.extname(file.originalname)}`);
   }
 });
 const upload = multer({ storage });
@@ -37,13 +37,15 @@ function main() {
         upload.single("file"),
         async ctx => {
           try {
-            const file = fs.createWriteStream("./server/db/settings.json", {
-              autoClose: true
-            });
-
+            const file = fs.createWriteStream("./server/db/settings.json");
             file.end(
               JSON.stringify(
-                Object.assign({ fileUrl: ctx.req.file.path }, ctx.req.body)
+                Object.assign(
+                  {
+                    imgUrl: `${config.imgUrl}${path.basename(ctx.req.file.path)}`
+                  },
+                  ctx.req.body
+                )
               )
             );
           } catch (e) {
@@ -58,7 +60,7 @@ function main() {
 
   app.use(
     route.get("/settings", async ctx => {
-      ctx.body = await fs.readFile("./db/settings.json", "utf-8");
+      ctx.body = await fs.readFile("./server/db/settings.json", "utf-8");
     })
   );
 
