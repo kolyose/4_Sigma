@@ -12,11 +12,9 @@ const config = {
     path: path.join(__dirname, "/public/dist"),
     filename: "[name].js"
   },
-  watch: NODE_ENV === "development",
-  watchOptions: {
-    aggregateTimeout: 100
-  },
-  devtool: NODE_ENV === "development" ? "cheap-inline-module-source-map" : null,
+  devtool: NODE_ENV === "development"
+    ? "cheap-inline-module-source-map"
+    : false,
   module: {
     loaders: [
       {
@@ -28,6 +26,28 @@ const config = {
 };
 
 const compiler = webpack(config);
+
+if (NODE_ENV === "development") {
+  compiler.watch(
+    {
+      aggregateTimeout: 100
+    },
+    (err, stats) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+
+      console.log(
+        stats.toString({
+          chunks: false,
+          colors: true
+        })
+      );
+    }
+  );
+}
+
 compiler.run(err => {
   if (err) {
     console.log(err);
