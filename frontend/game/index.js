@@ -27,11 +27,26 @@ class Game {
     this._state.entry();
   }
 
+  loadData() {
+    Loader.add("settings", "http://localhost:3000/settings").load(() => {
+      Loader.add([
+        {
+          name: "main",
+          url: JSON.parse(Loader.resources.settings.data).imgUrl,
+          crossOrigin: true
+        },
+        { name: "btn", url: "img/play-button.jpg" }
+      ]).load(() => {
+        this._state.onLoadComplete();
+      });
+    });
+  }
+
   loadImage() {
     Loader.add([
       { name: "main", url: "img/image.jpg" },
       { name: "btn", url: "img/play-button.jpg" }
-    ]).load((loader, resources) => {
+    ]).load(() => {
       this._state.onLoadComplete();
     });
   }
