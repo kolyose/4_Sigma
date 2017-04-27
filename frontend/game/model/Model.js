@@ -9,9 +9,6 @@ class Model extends EventEmitter {
     super();
     /* TODO: put here and parse settings JSON */
     this._layoutSettings = undefined;
-    this._fragmentsNumber = 12;
-    this._roundTime = 100; // in seconds
-    this._timeRemaining = this._roundTime;
     this._deltaTime = 0;
     this._updateTimeRemaining = this._updateTimeRemaining.bind(this);
   }
@@ -37,12 +34,12 @@ class Model extends EventEmitter {
   }
 
   startRoundCountdown() {
+    this._timeRemaining = this.roundDuration;
     app.ticker.add(this._updateTimeRemaining);
   }
 
   stopRoundCountdown() {
     app.ticker.remove(this._updateTimeRemaining);
-    this._timeRemaining = this._roundTime;
   }
 
   _updateTimeRemaining() {
@@ -58,23 +55,39 @@ class Model extends EventEmitter {
     }
   }
 
+  set fragmentsNumber(value) {
+    this._fragmentsNumber = parseInt(value, 10);
+  }
+
+  set roundDuration(value) {
+    this._roundDuration = parseInt(value, 10);
+  }
+
+  get fragmentsNumber() {
+    return this._fragmentsNumber;
+  }
+
+  get roundDuration() {
+    return this._roundDuration;
+  }
+
   get scale() {
     return this._layoutSettings.scale;
   }
 
   get rows() {
-    return this._layoutSettings.getRowsByFragmentsNumber(this._fragmentsNumber);
+    return this._layoutSettings.getRowsByFragmentsNumber(this.fragmentsNumber);
   }
 
   get columns() {
     return this._layoutSettings.getColumnsByFragmentsNumber(
-      this._fragmentsNumber
+      this.fragmentsNumber
     );
   }
 
   get fragmentDimensions() {
     return this._layoutSettings.getFragmentDimensionsByFragmentsNumber(
-      this._fragmentsNumber
+      this.fragmentsNumber
     );
   }
 

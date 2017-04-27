@@ -22,7 +22,8 @@
     },
     "rules": {
       "no-underscore-dangle": "off",
-      "linebreak-style": "off"
+      "linebreak-style": "off",
+      "class-methods-use-this": "off"
     }
   },
   "babel": {

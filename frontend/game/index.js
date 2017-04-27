@@ -16,8 +16,6 @@ import GameStatesFactory from "./states/GameStatesFactory";
 class Game {
   constructor() {
     this._state = undefined;
-    this._view = new GameView(app.stage);
-    this._view.on(EVENT_PLAY, this.startRound.bind(this));
   }
 
   applyState(newState) {
@@ -29,10 +27,11 @@ class Game {
 
   loadData() {
     Loader.add("settings", "http://localhost:3000/settings").load(() => {
+      this._settings = JSON.parse(Loader.resources.settings.data);
       Loader.add([
         {
           name: "main",
-          url: JSON.parse(Loader.resources.settings.data).imgUrl,
+          url: this._settings.imgUrl,
           crossOrigin: true
         },
         { name: "btn", url: "img/play-button.jpg" }
@@ -42,22 +41,19 @@ class Game {
     });
   }
 
-  loadImage() {
-    Loader.add([
-      { name: "main", url: "img/image.jpg" },
-      { name: "btn", url: "img/play-button.jpg" }
-    ]).load(() => {
-      this._state.onLoadComplete();
-    });
+  resizeApp() {
+    app.renderer.resize(this._settings.width, this._settings.height);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   initModel() {
     const mainTexture = Loader.resources.main.texture;
     Model.initLayoutSettingsByImageDimensions(
       { width: mainTexture.width, height: mainTexture.height },
       { width: app.renderer.width, height: app.renderer.height }
     );
+
+    Model.fragmentsNumber = this._settings.fragments;
+    Model.roundDuration = this._settings.time;
 
     Model.on(EVENT_ROUND_TIMER_TICK, () => {
       this.updateRoundCountdownView();
@@ -68,16 +64,18 @@ class Game {
     });
   }
 
-  initPopups() {
-    this._view.initPlayPopup();
-  }
-
   initView() {
-    this._view.scale = Model.scale;
+    this._view = new GameView(app.stage, Model.scale);
+
     this._view.initBackground(Loader.resources.main.texture, Model.bgPosition);
     this._view.initAbortBtn();
+
     this._view.on(EVENT_FORCE_END, () => {
-      this._state.abortRound();
+      this.abortRound();
+    });
+
+    this._view.on(EVENT_PLAY, () => {
+      this.startRound();
     });
   }
 
@@ -85,7 +83,10 @@ class Game {
     this._view.reset();
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  initPopups() {
+    this._view.initPlayPopup();
+  }
+
   resetFragments() {
     FragmentsManager.removeListener(EVENT_ALL_FRAGMENTS_ANCHORED);
     FragmentsManager.reset();
@@ -110,6 +111,10 @@ class Game {
 
   startRound() {
     this._state.startRound();
+  }
+
+  abortRound() {
+    this._state.abortRound();
   }
 
   stopRound(isWin) {

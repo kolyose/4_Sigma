@@ -10,9 +10,10 @@ import { EVENT_PLAY, EVENT_FORCE_END } from "./events";
 import TinkManager from "./utils/TinkManager";
 
 export default class GameView extends EventEmitter {
-  constructor(stage) {
+  constructor(stage, scale) {
     super();
     this._stage = stage;
+    this._scale = scale;
 
     this._fragmentsContainer = new Sprite();
     this._stage.addChild(this._fragmentsContainer);
