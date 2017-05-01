@@ -1,42 +1,32 @@
-import { Sprite, Graphics, Loader, Text, EventEmitter } from "./../aliases";
+import BasePopup from "./BasePopup";
+// import { Loader } from "./../aliases";
 import { EVENT_PLAY } from "./../events";
-import TinkManager from "./../utils/TinkManager";
+import UIComponentsFactory from "./../view/UIComponentsFactory";
 
-export default class PlayPopup extends EventEmitter {
-  constructor() {
-    super();
-    this._view = new Sprite();
-    this._label = new Text();
-  }
-
+export default class PlayPopup extends BasePopup {
   init() {
-    const roundedRect = new Graphics();
-    roundedRect.lineStyle(1, 0x000000, 1);
-    roundedRect.beginFill(0xffffff);
-    roundedRect.drawRoundedRect(0, 0, 600, 300, 10);
-    roundedRect.endFill();
-    this._view.addChild(roundedRect);
+    super.init();
+
+    this._label = UIComponentsFactory.createLabel("placeholder", "black");
+    this._label.y = 10;
     this._view.addChild(this._label);
-    this._btn = TinkManager.createButton([Loader.resources.btn.texture]);
+
+    /* this._btn = UIComponentsFactory.createButtonFromTextures([
+      Loader.resources.btn.texture
+    ]);*/
+
+    this._btn = UIComponentsFactory.createButtonFromGraphics("Play", 0x00bb00);
+    this._btn.x = (this._view.width - this._btn.width) / 2;
+    this._btn.y = this._view.height - this._btn.height - 10;
+
     this._btn.release = () => {
       this.emit(EVENT_PLAY);
     };
     this._view.addChild(this._btn);
   }
 
-  show() {
-    this._view.visible = true;
-  }
-
-  hide() {
-    this._view.visible = false;
-  }
-
   set message(txt) {
     this._label.text = txt;
-  }
-
-  get view() {
-    return this._view;
+    this._label.x = (this._view.width - this._label.width) / 2;
   }
 }

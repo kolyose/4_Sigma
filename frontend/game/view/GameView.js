@@ -1,29 +1,24 @@
-import {
-  Sprite,
-  ColorMatrixFilter,
-  EventEmitter,
-  Text,
-  Graphics
-} from "./aliases";
-import PlayPopup from "./popups/PlayPopup";
-import { EVENT_PLAY, EVENT_FORCE_END } from "./events";
-import TinkManager from "./utils/TinkManager";
+import { ColorMatrixFilter, EventEmitter } from "./../aliases";
+import { EVENT_PLAY, EVENT_FORCE_END } from "./../events";
+import UIComponentsFactory from "./UIComponentsFactory";
+import PlayPopup from "./../popups/PlayPopup";
 
 export default class GameView extends EventEmitter {
-  constructor(stage, scale) {
+  constructor(view, stage, scale) {
     super();
+    this._view = view;
     this._stage = stage;
     this._scale = scale;
 
-    this._fragmentsContainer = new Sprite();
+    this._fragmentsContainer = UIComponentsFactory.createContainer();
     this._stage.addChild(this._fragmentsContainer);
 
-    this._tfCountdown = new Text();
+    this._tfCountdown = UIComponentsFactory.createLabel("0", "white");
     this._stage.addChild(this._tfCountdown);
   }
 
   initBackground(texture, position) {
-    this._bg = new Sprite(texture);
+    this._bg = UIComponentsFactory.createContainer(texture);
     this._bg.scale.set(this._scale);
     this._bg.position.set(position.x, position.y);
     this._stage.addChildAt(this._bg, 0);
@@ -34,14 +29,13 @@ export default class GameView extends EventEmitter {
   }
 
   initAbortBtn() {
-    const btnBg = new Graphics();
-    btnBg.lineStyle(1, 0x0000ff, 1);
-    btnBg.beginFill(0xcccccc);
-    btnBg.drawRoundedRect(0, 0, 50, 25, 10);
-    btnBg.endFill();
+    this._btnAbort = UIComponentsFactory.createButtonFromGraphics(
+      "Finish",
+      0xff0000
+    );
+    this._btnAbort.x = this._view.width - this._btnAbort.width - 10;
+    this._btnAbort.y = 10;
 
-    this._btnAbort = TinkManager.createButton([btnBg.generateCanvasTexture()]);
-    this._btnAbort.x = this._bg.width - this._btnAbort.width;
     this._stage.addChild(this._btnAbort);
 
     this._btnAbort.release = () => {
@@ -53,13 +47,25 @@ export default class GameView extends EventEmitter {
     this._tfCountdown.text = Math.round(time).toString();
   }
 
-  addFragments(fragments) {
+  addFragments(fragments, positionRanges) {
+    let counter = 0;
     /* eslint-disable */
     fragments.forEach(fragment => {
       fragment.view.scale.set(this._scale, this._scale);
-      fragment.view.x = Math.random() * 500;
-      fragment.view.y = Math.random() * 500;
+
+      const positionsRangeRectangle = positionRanges[
+        counter % positionRanges.length
+      ];
+
+      fragment.view.x = positionsRangeRectangle.x +
+        Math.random() * positionsRangeRectangle.width;
+
+      fragment.view.y = positionsRangeRectangle.y +
+        Math.random() * positionsRangeRectangle.height;
+
       this._fragmentsContainer.addChild(fragment.view);
+
+      counter++;
     });
   }
 
@@ -74,6 +80,12 @@ export default class GameView extends EventEmitter {
       this.emit(EVENT_PLAY);
     });
     this._stage.addChild(this._playPopup.view);
+
+    this._playPopup.view.x = (this._view.width - this._playPopup.view.width) /
+      2;
+
+    this._playPopup.view.y = (this._view.height - this._playPopup.view.height) /
+      2;
   }
 
   showPlayPopup(message) {

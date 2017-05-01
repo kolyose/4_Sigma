@@ -91,7 +91,6 @@ class Model extends EventEmitter {
     );
   }
 
-  // eslint-disable-next-line
   get anchorPrecision() {
     return 10;
   }
@@ -111,6 +110,10 @@ class Model extends EventEmitter {
           this._imageDimensions.height * this.scale
       ) / 2
     };
+  }
+
+  get fragmentsPositionRanges() {
+    return this._layoutSettings.fragmentsPositionRanges;
   }
 }
 

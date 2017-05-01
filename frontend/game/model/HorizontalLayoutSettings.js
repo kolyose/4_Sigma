@@ -1,4 +1,5 @@
 import BaseLayoutSettings from "./BaseLayoutSettings";
+import { Rectangle } from "./../aliases";
 
 export default class HorizontalLayoutSettings extends BaseLayoutSettings {
   //eslint-disable-next-line
@@ -29,7 +30,25 @@ export default class HorizontalLayoutSettings extends BaseLayoutSettings {
     }
   }
 
+  //TODO: adjust ranges
+  get fragmentsPositionRanges() {
+    return [
+      new Rectangle(
+        0,
+        0,
+        this._rendererDimensions.width,
+        this._rendererDimensions.height / 4
+      ),
+      new Rectangle(
+        0,
+        this._rendererDimensions.height * 3 / 4,
+        this._rendererDimensions.width,
+        this._rendererDimensions.height / 4
+      )
+    ];
+  }
+
   get scale() {
-    return this.rendererDimensions.width / this.imageDimensions.width;
+    return this._rendererDimensions.width / this._imageDimensions.width;
   }
 }

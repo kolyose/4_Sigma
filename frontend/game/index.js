@@ -10,7 +10,7 @@ import {
   EVENT_ROUND_TIMER_TICK,
   EVENT_ROUND_TIME_ENDED
 } from "./events";
-import GameView from "./GameView";
+import GameView from "./view/GameView";
 import GameStatesFactory from "./states/GameStatesFactory";
 
 class Game {
@@ -65,7 +65,7 @@ class Game {
   }
 
   initView() {
-    this._view = new GameView(app.stage, Model.scale);
+    this._view = new GameView(app.view, app.stage, Model.scale);
 
     this._view.initBackground(Loader.resources.main.texture, Model.bgPosition);
     this._view.initAbortBtn();
@@ -96,7 +96,7 @@ class Game {
     const fragments = FragmentsFactory.getFragmentsForTexture(
       Loader.resources.main.texture
     );
-    this._view.addFragments(fragments, Model.scale);
+    this._view.addFragments(fragments, Model.fragmentsPositionRanges);
 
     FragmentsManager.fragments = fragments;
     FragmentsManager.once(EVENT_ALL_FRAGMENTS_ANCHORED, () => {
