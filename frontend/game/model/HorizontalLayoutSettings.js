@@ -30,20 +30,19 @@ export default class HorizontalLayoutSettings extends BaseLayoutSettings {
     }
   }
 
-  //TODO: adjust ranges
   get fragmentsPositionRanges() {
     return [
       new Rectangle(
         0,
         0,
         this._rendererDimensions.width,
-        this._rendererDimensions.height / 4
+        this._rendererDimensions.height * 2 / 5
       ),
       new Rectangle(
         0,
-        this._rendererDimensions.height * 3 / 4,
+        this._rendererDimensions.height * 3 / 5,
         this._rendererDimensions.width,
-        this._rendererDimensions.height / 4
+        this._rendererDimensions.height * 2 / 5
       )
     ];
   }

@@ -58,10 +58,10 @@ export default class GameView extends EventEmitter {
       ];
 
       fragment.view.x = positionsRangeRectangle.x +
-        Math.random() * positionsRangeRectangle.width;
+        Math.random() * (positionsRangeRectangle.width - fragment.view.width);
 
       fragment.view.y = positionsRangeRectangle.y +
-        Math.random() * positionsRangeRectangle.height;
+        Math.random() * (positionsRangeRectangle.height - fragment.view.height);
 
       this._fragmentsContainer.addChild(fragment.view);
 

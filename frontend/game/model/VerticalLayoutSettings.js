@@ -30,19 +30,18 @@ export default class VerticalLayoutSettings extends BaseLayoutSettings {
     }
   }
 
-  //TODO: adjust ranges
   get fragmentsPositionRanges() {
     return [
       new Rectangle(
         0,
         0,
-        this._rendererDimensions.width / 4,
+        this._rendererDimensions.width * 2 / 5,
         this._rendererDimensions.height
       ),
       new Rectangle(
-        this._rendererDimensions.width * 3 / 4,
+        this._rendererDimensions.width * 3 / 5,
         0,
-        this._rendererDimensions.width / 4,
+        this._rendererDimensions.width * 2 / 5,
         this._rendererDimensions.height
       )
     ];
