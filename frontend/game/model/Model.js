@@ -11,6 +11,7 @@ class Model extends EventEmitter {
     this._layoutSettings = undefined;
     this._deltaTime = 0;
     this._updateTimeRemaining = this._updateTimeRemaining.bind(this);
+    this._timeRemaining = -1;
   }
 
   /*

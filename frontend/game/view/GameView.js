@@ -13,7 +13,7 @@ export default class GameView extends EventEmitter {
     this._fragmentsContainer = UIComponentsFactory.createContainer();
     this._stage.addChild(this._fragmentsContainer);
 
-    this._tfCountdown = UIComponentsFactory.createLabel("0", "white");
+    this._tfCountdown = UIComponentsFactory.createLabel("", "white");
     this._stage.addChild(this._tfCountdown);
   }
 
@@ -36,15 +36,16 @@ export default class GameView extends EventEmitter {
     this._btnAbort.x = this._view.width - this._btnAbort.width - 10;
     this._btnAbort.y = 10;
 
-    this._stage.addChild(this._btnAbort);
-
     this._btnAbort.release = () => {
       this.emit(EVENT_FORCE_END);
     };
+
+    this._stage.addChild(this._btnAbort);
   }
 
   updateCountdown(time) {
-    this._tfCountdown.text = Math.round(time).toString();
+    const timeString = time < 0 ? "" : Math.round(time).toString();
+    this._tfCountdown.text = timeString;
   }
 
   addFragments(fragments, positionRanges) {
