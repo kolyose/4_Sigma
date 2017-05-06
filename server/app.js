@@ -60,7 +60,11 @@ function main() {
 
   app.use(
     route.get("/settings", async ctx => {
-      ctx.body = await fs.readFile("./server/db/settings.json", "utf-8");
+      try {
+        ctx.body = await fs.readFile("./server/db/settings.json", "utf-8");
+      } catch (e) {
+        throw e;
+      }
     })
   );
 
