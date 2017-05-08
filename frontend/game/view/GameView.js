@@ -1,5 +1,6 @@
 import { ColorMatrixFilter, EventEmitter } from "./../aliases";
 import { EVENT_PLAY, EVENT_FORCE_END } from "./../events";
+import { BTN_LABEL_FINISH } from "./../localization";
 import UIComponentsFactory from "./UIComponentsFactory";
 import PlayPopup from "./../popups/PlayPopup";
 
@@ -30,7 +31,7 @@ export default class GameView extends EventEmitter {
 
   initAbortBtn() {
     this._btnAbort = UIComponentsFactory.createButtonFromGraphics(
-      "Finish",
+      BTN_LABEL_FINISH,
       0xff0000
     );
     this._btnAbort.x = this._view.width - this._btnAbort.width - 10;

@@ -1,6 +1,6 @@
 import BasePopup from "./BasePopup";
-// import { Loader } from "./../aliases";
 import { EVENT_PLAY } from "./../events";
+import { BTN_LABEL_START } from "./../localization";
 import UIComponentsFactory from "./../view/UIComponentsFactory";
 
 export default class PlayPopup extends BasePopup {
@@ -15,7 +15,10 @@ export default class PlayPopup extends BasePopup {
       Loader.resources.btn.texture
     ]);*/
 
-    this._btn = UIComponentsFactory.createButtonFromGraphics("Play", 0x00bb00);
+    this._btn = UIComponentsFactory.createButtonFromGraphics(
+      BTN_LABEL_START,
+      0x00bb00
+    );
     this._btn.x = (this._view.width - this._btn.width) / 2;
     this._btn.y = this._view.height - this._btn.height - 10;
 
