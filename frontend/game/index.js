@@ -25,6 +25,21 @@ class Game {
     this._state.entry();
   }
 
+  displaySpinner() {
+    this._spinnerContainer = document.createElement("div");
+    this._spinnerContainer.innerHTML = `<div id="spinner"></div>`;
+    document.body.appendChild(this._spinnerContainer);
+
+    this._spinner = document.querySelector("#spinner");
+    this._canvas = document.querySelector("canvas");
+    this._spinner.style.left = `${(this._canvas.width - this._spinner.clientWidth) / 2}px`;
+    this._spinner.style.top = `${(this._canvas.height - this._spinner.clientHeight) / 2}px`;
+  }
+
+  destroySpinner() {
+    document.body.removeChild(this._spinnerContainer);
+  }
+
   loadData() {
     Loader.add("settings", "http://localhost:3000/settings").load(() => {
       this._settings = JSON.parse(Loader.resources.settings.data);
@@ -33,8 +48,7 @@ class Game {
           name: "main",
           url: this._settings.imgUrl,
           crossOrigin: true
-        },
-        { name: "btn", url: "img/play-button.jpg" }
+        }
       ]).load(() => {
         this._state.onLoadComplete();
       });
