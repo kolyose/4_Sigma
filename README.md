@@ -14,7 +14,7 @@ or
 yarn install
 ```
 
-##Getting started
+## Getting started
 
 Launch the project by npm/yarn start command:
 
@@ -28,5 +28,5 @@ yarn start
 
 ## Usage
 
-- [Admin page] (http://localhost:3000/admin.html) - Setup game settings
-- [Game page] (http://localhost:3000/game.html) - Enjoy the game
+- [Admin page](http://localhost:3000/admin.html) - Setup game settings
+- [Game page](http://localhost:3000/game.html) - Enjoy the game
