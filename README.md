@@ -28,5 +28,5 @@ yarn start
 
 ## Usage
 
-- [Admin page](http://localhost:3000/admin.html) - Setup game settings
+- [Admin page](http://localhost:3000/admin.html) - Set up game settings
 - [Game page](http://localhost:3000/game.html) - Enjoy the game
