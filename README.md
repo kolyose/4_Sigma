@@ -1,8 +1,9 @@
 # 4_Sigma
-A browser puzzle game utilizing Pixi.js engine with admin panel based on React.js and simple Node.js server serving static/settings files.
+A browser puzzle game utilizing __Pixi.js__ engine with admin panel based on __React.js__ and simple __Node.js__ server serving static/settings files.
 The server is hosted at http://localhost:3000/ by default.
 
 ## Installation 
+
 Install the project's dependencies by npm/yarn install command:
 
 ```
@@ -14,6 +15,7 @@ yarn install
 ```
 
 ##Getting started
+
 Launch the project by npm/yarn start command:
 
 ```
@@ -26,5 +28,5 @@ yarn start
 
 ## Usage
 
-- Admin page [http://localhost:3000/admin.html] - Setup game settings
-- Game page [http://localhost:3000/game.html] - Enjoy the game
+- [Admin page] (http://localhost:3000/admin.html) - Setup game settings
+- [Game page] (http://localhost:3000/game.html) - Enjoy the game
